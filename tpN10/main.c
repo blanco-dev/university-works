@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../pila.h"
+#include "pila.h"
 
 
 /**10  Cargar las pilas A y B, y luego compararlas, evaluando si son completamente iguales,
@@ -8,7 +8,9 @@
        Mostrar por pantalla el resultado  */
 
 void cargarPila(Pila *a);
-void compararTamanioPilas(Pila a, Pila b);
+void compararLongitudPilas(Pila a, Pila b);
+void compararValoresPila(Pila a, Pila b);
+
 
 int main() {
     Pila a;
@@ -19,10 +21,8 @@ int main() {
     cargarPila(&a);
     cargarPila(&b);
 
-    compararTamanioPilas(a, b);
-
-
-
+    compararLongitudPilas(a, b);
+    compararValoresPila(a, b);
 
     return 0;
 }
@@ -39,28 +39,34 @@ void cargarPila(Pila *a){
     }
 }
 
-void compararTamanioPilas(Pila a, Pila b){
-    int i = 0;
-    int j = 0;
+void compararLongitudPilas(Pila a, Pila b){
 
-    while(!pilavacia(&a)){
+    while(!pilavacia(&a) && !pilavacia(&b)){
         desapilar(&a);
-        i++;
-    }
-
-    while(!pilavacia(&b)){
         desapilar(&b);
-        j++;
     }
 
-    if(j>i){
-        printf("La pila B es mayor con : %i elementos", j);
-    } else if(j==i){
-        printf("Ambas pilas son de la misma longitud. CON %i elementos y la otra con %i elementos",i,j);
-    } else{
-        printf("La pila A es mayor con : %i elementos", i);
+    if(pilavacia(&a) && pilavacia(&b)){
+        printf("Tu pila son de la misma longitud\n");
+    } else {
+        printf("Tu pila NO son de la misma longitud\n");
     }
-
 }
 
 
+void compararValoresPila(Pila a, Pila b){
+
+    while(!pilavacia(&a) && !pilavacia(&b)){
+            if (tope(&a) == tope(&b)){
+                desapilar(&a);
+                desapilar(&b);
+            }
+    }
+
+    if(pilavacia(&a) && pilavacia(&b)){
+        printf("Ambas pilas son totalmente identicas\n");
+    } else {
+        printf("Tu pila NO son identicas\n");
+    }
+
+}
