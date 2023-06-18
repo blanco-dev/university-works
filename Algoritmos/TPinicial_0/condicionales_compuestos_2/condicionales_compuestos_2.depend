@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1679178554 source:c:\users\matias\desktop\condicionales_compuestos_2\main.c
+	<stdio.h>
+	<stdlib.h>
+

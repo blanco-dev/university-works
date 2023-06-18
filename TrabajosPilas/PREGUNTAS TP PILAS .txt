@@ -1,0 +1,80 @@
+// 15. ¿Cuál es la condición del siguiente ciclo? ¿Cuándo finaliza el ciclo? (Pila1, Pila2, y Descarte son pilas): 
+
+//while (!pilavacia(&Pila1)) { 
+ //  apilar (&Pila2, desapilar(&Descarte))
+//} 
+
+// Rta: La condición del ciclo es que cuando Pila 1 no esté vacio, se ejecute lo de adentro del while. Finaliza el ciclo cuando la pila 1 esté vacia.
+
+
+// 16) ¿Que realiza el siguiente código escrito en lenguaje C (Pila1, Aux y Result son pilas): 
+
+
+/*while (!pilavacia(&Pila1)) { 
+   if (tope(&Pila1) == 5) {
+      apilar (&Aux, desapilar(&Pila1));
+      apilar (&Result, desapilar(&Aux));
+   }
+} */
+
+//Rta: El siguiente codigo realiza una condición de que mientras pila 1 no esté vacia, pregunte una condicion de verificar si el tope de la pila 1 es idéntico a 5, luego lo apile en Aux y luego a Result.
+
+
+
+
+/*17. Para el ejercicio “Cargar por teclado una pila ORIGEN y pasar a la pila DISTINTO todos aquellos elementos que preceden al valor 5 (elementos entre el tope y el valor 5).
+
+No se asegura que exista algún valor 5”, se realizó el siguiente programa: 
+
+// este programa carga por teclado una pila Origen y pasa a la pila Destino todos aquellos elementos que preceden el valor 5 
+
+
+int main() { 
+   Pila Origen, Distinto;
+   inicpila(&Origen);
+   inicpila(&Distinto);
+   leer(&Origen);
+   if (!pilaVacia(&Origen)){ 
+      while (tope(&Origen) != 5) {
+         apilar (&Distinto, desapilar(&Origen));
+      } 
+   }
+}
+
+a. ¿Resuelve el problema planteado?
+b. ¿Cuáles son los errores que encuentra? */ 
+
+
+/* 17) a) El problema  no resuelve el problema planteado.
+17) b) El error que se encuentra es que pilaVacia contiene mayusculas y no funcionará directamente. Y que la condicion es que requiere que precedan a 5, y la condicion es que sea distinto a 5. 
+c. Reescribir el código para que resuelva adecuadamente el problema planteado.
+d. Indicar los componentes del programa. 
+
+c) int main() {
+    Pila Origen, Distinto; // Crear las pilas
+    inicpila(&Origen); // Inicializarlas
+    inicpila(&Distinto); // Inicializarlas
+    leer(&Origen); // Escribir en consola 
+    while (tope(&Origen) < 5) // Bucle mientras para que si el tope es menor a 5 ejecute el codigo de abajo.
+    {
+        if (!pilavacia(&Origen)) // Mientras la pila Origen no este vacia realizar la condicion de abajo
+        {
+            apilar (&Distinto, desapilar(&Origen)); // apilar en Pila Distinto mientras haya valores en pila Origen. 
+        }
+    }
+    mostrar(&Distinto); // Muestrar valores de la pila Distinto
+    return 0;
+}
+
+
+18. Dado el siguiente ciclo (Pila1, Pila2 y Descarte son pilas): 
+while ( (!pilaVacia(&Pila1)) && (!pilaVacia(&Pila2)) ) { 
+      apilar (&Descarte, desapilar(&Pila1));
+      apilar (&Descarte, desapilar(&Pila2));
+} 
+
+a. ¿Cuál es la condición del ciclo? Explique con sus palabras
+b. ¿Cuales son los posibles estados de ambas pilas al finalizar el ciclo? 
+
+a) La condicion del ciclo realiza una verificacion de pila 1 y pila 2, no esten vacios que realice una desapilacion en Pila Descarte.
+b) Los posibles casos son: Que ambas no tengan los mismos valores, entonces se termine el ciclo. Que ambas pilas contengan la misma cantidad de valores, entonces finalizan a la misma vez porque estaran vacias. 
