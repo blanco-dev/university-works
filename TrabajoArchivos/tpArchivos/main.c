@@ -9,22 +9,22 @@ typedef struct {
     int anio;
 } stAlumno;
 
-/// Hacer una función que agregue un elemento al final de un archivo
-
 void cargarAlumno(char archivoAlumnos[]);
 void mostrarArchivo(char archivoAlumnos[]);
 void cantidadRegistros(char archivoAlumnos[]);
-//void archivoToPila(Pila *pilita, char archivoAlumnos[]);
 void busquedaXNombreXEdad (char archivoAlumnos[]);
+void buscarMayorAlumno(char archivoAlumnos[]);
+void mostrarUnAlumno(stAlumno aux);
+int buscarAlumnoXAnio(int datoAnio, char archivoAlumnos[]);
 
 int main() {
     char archivoAlumnos[] = "archivos";
     int datoEdad = 0;
+    int datoAnio = 0;
     cargarAlumno(archivoAlumnos);
 
     mostrarArchivo(archivoAlumnos);
     cantidadRegistros(archivoAlumnos);
-    //archivoToPila(&pilita, archivoAlumnos);
 
     printf("Indique la edad de busqueda: \n");
     fflush(stdin);
@@ -34,6 +34,15 @@ int main() {
     printf("Cantidad de alumnos mayores a %i: %i\n", datoEdad, cantAlumnosMayores);
 
     busquedaXNombreXEdad(archivoAlumnos);
+    buscarMayorAlumno(archivoAlumnos);
+
+    printf("Indique el anio que desea buscar: \n");
+    fflush(stdin);
+    scanf("%i", &datoAnio);
+
+    int cantidadPorAnio = buscarAlumnoXAnio(datoAnio, archivoAlumnos);
+
+    printf("La cantidad de alumnos que cursan en el mismo anio son: %i\n", cantidadPorAnio);
 
     return 0;
 }
@@ -112,13 +121,14 @@ void cantidadRegistros(char archivoAlumnos[]) {
     }
 }
 */
-int cantidadMayoresDeEdad(char archivoAlumnos[], int datoEdad){
+
+int cantidadMayoresDeEdad(char archivoAlumnos[], int datoEdad) {
     stAlumno aux;
     FILE *archi = fopen(archivoAlumnos,"rb");
     int cantMayores = 0;
     if (archi != NULL) {
         while(fread(&aux,sizeof(stAlumno),1,archi) > 0) {
-            if(aux.edad > datoEdad){
+            if(aux.edad > datoEdad) {
                 cantMayores++;
             }
         }
@@ -127,15 +137,58 @@ int cantidadMayoresDeEdad(char archivoAlumnos[], int datoEdad){
     return cantMayores;
 }
 
-void busquedaXNombreXEdad (char archivoAlumnos[]){
-     stAlumno aux;
-     FILE *archi = fopen(archivoAlumnos, "rb");
-     if(archi != NULL){
-        while(fread(&aux, sizeof(stAlumno),1,archi) > 0){
-            if((aux.edad > 15) && (aux.edad < 32)){
+void busquedaXNombreXEdad (char archivoAlumnos[]) {
+    stAlumno aux;
+    FILE *archi = fopen(archivoAlumnos, "rb");
+    if(archi != NULL) {
+        while(fread(&aux, sizeof(stAlumno),1,archi) > 0) {
+            if((aux.edad > 15) && (aux.edad < 32)) {
                 printf("Nombre del estudiante entre el rango de edad: %s\n", aux.nombreYapellido);
             }
         }
         fclose(archi);
-     }
+    }
+}
+
+void buscarMayorAlumno(char archivoAlumnos[]) {
+    int pos;
+    stAlumno aux;
+    stAlumno mayor;
+    int i=0;
+    FILE *archi = fopen(archivoAlumnos,"rb");
+
+    if (archi != NULL) {
+        fread(&mayor,sizeof(stAlumno),1,archi);
+        while(fread(&aux,sizeof(stAlumno),1,archi) > 0) {
+            if (aux.edad > mayor.edad) {
+                mayor = aux;
+            }
+        }
+        fclose(archi);
+    }
+    mostrarUnAlumno(mayor);
+}
+
+void mostrarUnAlumno(stAlumno aux) {
+    printf("----------------------------------\n");
+    printf("Nombre y apellido: %s\n", aux.nombreYapellido);
+    printf("La edad es: %i\n", aux.edad);
+    printf("El anio es: %i\n", aux.anio);
+    printf("El legajo es: %i\n", aux.legajo);
+    printf("----------------------------------");
+}
+
+int buscarAlumnoXAnio(int datoAnio, char archivoAlumnos[]){
+    stAlumno aux;
+    FILE * archi = fopen(archivoAlumnos,"rb");
+    int cantCursados = 0;
+    if (archi != NULL){
+        while(fread(&aux,sizeof(stAlumno),1,archi) > 0){
+            if (aux.anio == datoAnio){
+                cantCursados++;
+            }
+        }
+        fclose(archi);
+    }
+    return cantCursados;
 }
