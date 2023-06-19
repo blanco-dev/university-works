@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_DIM 25
-#include "../../pila.h"
 
 typedef struct {
     int legajo;
@@ -15,7 +14,8 @@ typedef struct {
 void cargarAlumno(char archivoAlumnos[]);
 void mostrarArchivo(char archivoAlumnos[]);
 void cantidadRegistros(char archivoAlumnos[]);
-void archivoToPila(Pila *pilita, char archivoAlumnos[]);
+//void archivoToPila(Pila *pilita, char archivoAlumnos[]);
+void busquedaXNombreXEdad (char archivoAlumnos[]);
 
 int main() {
     char archivoAlumnos[] = "archivos";
@@ -33,6 +33,7 @@ int main() {
     int cantAlumnosMayores = cantidadMayoresDeEdad(archivoAlumnos, datoEdad);
     printf("Cantidad de alumnos mayores a %i: %i\n", datoEdad, cantAlumnosMayores);
 
+    busquedaXNombreXEdad(archivoAlumnos);
 
     return 0;
 }
@@ -98,7 +99,7 @@ void cantidadRegistros(char archivoAlumnos[]) {
     printf("Cantidad de Registros: %i\n", cantRegistros);
 }
 
-void archivoToPila(Pila *pilita, char archivoAlumnos[]) {
+/*void archivoToPila(Pila *pilita, char archivoAlumnos[]) {
     stAlumno aux;
     FILE * buffer = fopen(archivoAlumnos, "r+b");
     if (buffer != NULL) {
@@ -110,7 +111,7 @@ void archivoToPila(Pila *pilita, char archivoAlumnos[]) {
         fclose(buffer);
     }
 }
-
+*/
 int cantidadMayoresDeEdad(char archivoAlumnos[], int datoEdad){
     stAlumno aux;
     FILE *archi = fopen(archivoAlumnos,"rb");
@@ -124,4 +125,17 @@ int cantidadMayoresDeEdad(char archivoAlumnos[], int datoEdad){
         fclose(archi);
     }
     return cantMayores;
+}
+
+void busquedaXNombreXEdad (char archivoAlumnos[]){
+     stAlumno aux;
+     FILE *archi = fopen(archivoAlumnos, "rb");
+     if(archi != NULL){
+        while(fread(&aux, sizeof(stAlumno),1,archi) > 0){
+            if((aux.edad > 15) && (aux.edad < 32)){
+                printf("Nombre del estudiante entre el rango de edad: %s\n", aux.nombreYapellido);
+            }
+        }
+        fclose(archi);
+     }
 }
