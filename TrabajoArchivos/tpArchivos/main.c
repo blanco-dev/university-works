@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_DIM 25
+#define MAX_DIM 2
+#define MAX_DIMm 2
 
 typedef struct {
     int legajo;
@@ -16,9 +17,15 @@ void busquedaXNombreXEdad (char archivoAlumnos[]);
 void buscarMayorAlumno(char archivoAlumnos[]);
 void mostrarUnAlumno(stAlumno aux);
 int buscarAlumnoXAnio(int datoAnio, char archivoAlumnos[]);
+int sumarPosicionesPares(int matriz[MAX_DIM][MAX_DIMm]);
 
 int main() {
-    char archivoAlumnos[] = "archivos";
+    int matriz[MAX_DIM][MAX_DIMm];
+    matriz[0][0] = 5;
+    matriz[0][1] = 3;
+    matriz[1][0] = 1;
+    matriz[1][1] = 1;
+    /*char archivoAlumnos[] = "archivos";
     int datoEdad = 0;
     int datoAnio = 0;
     cargarAlumno(archivoAlumnos);
@@ -43,6 +50,10 @@ int main() {
     int cantidadPorAnio = buscarAlumnoXAnio(datoAnio, archivoAlumnos);
 
     printf("La cantidad de alumnos que cursan en el mismo anio son: %i\n", cantidadPorAnio);
+    */
+
+    int sumaTotal = sumarPosicionesPares(matriz);
+    printf("La suma total es: %i", sumaTotal);
 
     return 0;
 }
@@ -178,17 +189,41 @@ void mostrarUnAlumno(stAlumno aux) {
     printf("----------------------------------");
 }
 
-int buscarAlumnoXAnio(int datoAnio, char archivoAlumnos[]){
+int buscarAlumnoXAnio(int datoAnio, char archivoAlumnos[]) {
     stAlumno aux;
     FILE * archi = fopen(archivoAlumnos,"rb");
     int cantCursados = 0;
-    if (archi != NULL){
-        while(fread(&aux,sizeof(stAlumno),1,archi) > 0){
-            if (aux.anio == datoAnio){
+    if (archi != NULL) {
+        while(fread(&aux,sizeof(stAlumno),1,archi) > 0) {
+            if (aux.anio == datoAnio) {
                 cantCursados++;
             }
         }
         fclose(archi);
     }
     return cantCursados;
+}
+
+/*void arreglosToArchivos(int arregloA[], char arregloB[], int validos) {
+    FILE * bufferInt = fopen(arregloA, "ab");
+    FILE * bufferChar = fopen(arregloB, "ab");
+
+    if (bufferInt != NULL && bufferChar != NULL) {
+        for(int i=0; i<validos; i++) {
+            fwrite(&arregloA[i],sizeof(char),1,bufferChar);
+            fwrite(&arregloB[i],sizeof(int),1,bufferInt);
+        }
+    }
+}*/
+
+int sumarPosicionesPares(int matriz[MAX_DIM][MAX_DIMm]){
+    int ac = 0;
+    for (int i=0; i<MAX_DIM; i++) {
+        for (int j=0; j<MAX_DIMm; j++) {
+            if (i+=j %2 == 0) {
+                ac += matriz[i][j];
+            }
+        }
+    }
+    return ac;
 }
