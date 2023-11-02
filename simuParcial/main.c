@@ -41,14 +41,78 @@ void mostrarUnContacto (stContacto contacto);
 int contarContactosActivos (nodoContacto *listaDoble);
 void mostrarListaDobleRecursivo (nodoContacto *listaDoble, nodoContacto *ultimo);
 nodoContacto * buscarUltimoDoble(nodoContacto *listaDoble);
+nodoContacto * agregarEnOrden (nodoContacto *listaDoble, nodoContacto *nuevoNodo);
+nodoContacto *inicListaDoble();
+void mostrarListaDoble(nodoContacto *listaDoble);
+nodoContacto *crearNodoContacto (stContacto datoAux);
+stContacto crearContacto ();
+nodoContacto *agregarAlPpioDoble(nodoContacto* listaDoble, nodoContacto* nuevoNodo);
 
 int main() {
-    nodoPersona *lista = inicListaSimple();
-    int opsw = 0;
-    char op = 's';
+    char op;
+    int opsw=0,dato=0;
+
+    nodoPersona*listaSimple = inicListaSimple();
+    nodoContacto*listaDoble = inicListaDoble();
+    do {
+        puts("1. Agregar al principio Personas (Muchas)");
+        puts("2. Agregar al final Personas (Muchas)");
+        puts("3. Verificar si existe un DNI buscado");
+        puts("4. Mostrar lista Personas de forma recursiva");
+        puts("5. Agregar al principio Contacto (Muchos)");
+        puts("6. Agregar al final Contacto(Muchos)");
+        puts("7. Agregar de manera ordenada x DNI Contacto (Muchos)");
+        puts("8. Mostrar contactos de manera Recursiva");
+        puts("9. Mostrar contactos normal");
+        puts("10. Contar contactos");
+        puts("-------------------------------------------");
+        printf("Que ejercicio elige: ");
+        scanf("%i",&opsw);
 
 
+        switch(opsw) {
+        case 1:
+            listaSimple = agregarAlPpio(listaSimple,crearNodo(crearPersona()));
+            break;
+        case 2:
+            listaSimple = agregarAlFinal(listaSimple,crearNodo(crearPersona()));
+            break;
+        case 3:
+            printf("Ingrese el dni que quiere buscar: ");
+            scanf("%i",&dato);
+            buscarDocRecursivo(listaSimple,dato) ? puts("Existe el DNI buscado") : puts("El DNI buscado no se encontro");
+            break;
+        case 4:
+            mostrarListaSimpleRecursivo(listaSimple);
+            break;
+        case 5:
+            listaDoble = agregarAlPpioDoble(listaDoble,crearNodoContacto(crearContacto()));
+            break;
+        case 6:
+            //listaDoble = cargarMuchosAlFinalDoble(listaDoble,listaSimple);
+            break;
+        case 7:
+            listaDoble = agregarEnOrden(listaDoble,crearNodoContacto(crearContacto()));
+            break;
+        case 8:
+            mostrarListaDobleRecursivo(listaDoble,buscarUltimoDoble(listaDoble));
+            break;
+        case 9:
+            mostrarListaDoble(listaDoble);
+            break;
+        case 10:
+            dato = contarContactosActivos(listaDoble);
+            printf("La cantidad de contactos son: %i",dato);
+            break;
+        default:
+            break;
+        }
+        printf("Desea volver al menu principal? s/n: ");
+        fflush(stdin);
+        scanf("%c",&op);
 
+        system("cls");
+    } while(op == 's' || op == 'S');
 
     return 0;
 }
@@ -151,7 +215,7 @@ int validarRangoDoc (int doc) {
 
 void mostrarPersona (stPersona persona) {
     printf("El nombre es: %s\n",persona.nombre);
-    printf("El DNI es: %s\n",persona.DNI);
+    printf("El DNI es: %i\n",persona.DNI);
     printf("El telefono es: %s\n",persona.telefono);
 }
 
@@ -166,7 +230,36 @@ void mostrarListaSimpleRecursivo (nodoPersona *lista) {
 /// 7) Hacer una función que muestre la lista doble de manera recursiva.
 /// Empezar desde final y mostrar desde el último al primero.
 
-/*nodoContacto * buscarUltimoDoble(nodoContacto *listaDoble) {
+
+stContacto crearContacto () {
+    stContacto contacto;
+
+    printf("Ingrese el tipo de actividad (0/1): \n");
+    fflush(stdin);
+    scanf("%i",&contacto.activo);
+
+    printf("Ingrese el tipo de contacto: \n");
+    fflush(stdin);
+    scanf("%i",&contacto.tipoContacto);
+
+    printf("Ingrese el DNI: \n");
+    fflush(stdin);
+    scanf("%i",&contacto.DNI);
+
+
+    return contacto;
+}
+
+nodoContacto *crearNodoContacto (stContacto datoAux) {
+    nodoContacto *aux = (nodoContacto*) malloc(sizeof(nodoContacto));
+    aux->dato = datoAux;
+    aux->siguiente = NULL;
+    aux->anterior = NULL;
+
+    return aux;
+}
+
+nodoContacto * buscarUltimoDoble(nodoContacto *listaDoble) {
     nodoContacto *ultimo = inicListaDoble();
     if(listaDoble == NULL) {
         ultimo = listaDoble;
@@ -178,12 +271,34 @@ void mostrarListaSimpleRecursivo (nodoPersona *lista) {
     }
 
     return ultimo;
-}*/
+}
+
+nodoContacto *inicListaDoble() {
+    return NULL;
+}
+
+nodoContacto *agregarAlPpioDoble(nodoContacto* listaDoble, nodoContacto* nuevoNodo) {
+
+    nuevoNodo->siguiente = listaDoble;
+
+    return nuevoNodo;
+}
+
 
 void mostrarUnContacto (stContacto contacto) {
     printf("El tipo de actividad es: %i\n", contacto.activo);
     printf("El DNI es: %i\n", contacto.DNI);
     printf("El tipo de contacto es: %i\n", contacto.tipoContacto);
+
+}
+
+void mostrarListaDoble(nodoContacto *listaDoble) {
+    while(listaDoble != NULL) {
+        printf("El tipo de actividad es: %i\n", listaDoble->dato.activo);
+        printf("El DNI es: %i\n", listaDoble->dato.DNI);
+        printf("El tipo de contacto es: %i\n", listaDoble->dato.tipoContacto);
+        listaDoble = listaDoble->siguiente;
+    }
 
 }
 
@@ -198,29 +313,26 @@ void mostrarListaDobleRecursivo (nodoContacto *listaDoble, nodoContacto * ultimo
 int contarContactosActivos (nodoContacto *listaDoble) {
     int contador = 0;
     while(listaDoble != NULL) {
-        if (listaDoble->dato.activo == 1){
+        if (listaDoble->dato.activo == 1) {
             contador++;
         }
         listaDoble = listaDoble->siguiente;
     }
     return contador;
-}
 
 nodoContacto * agregarEnOrden (nodoContacto *listaDoble, nodoContacto *nuevoNodo) {
     nodoContacto *seg = listaDoble;
     if (listaDoble == NULL) {
-        listaDoble = nuevoNodo;
+        listaDoble = nuevoNodo; // El caso en que no hayan datos en la lista
     } else {
         if(listaDoble->dato.DNI > nuevoNodo->dato.DNI) {
-            //listaDoble = agregarAlPpioDoble(listaDoble, nuevoNodo);
+            listaDoble = agregarAlPpioDoble(listaDoble, nuevoNodo); // El caso en que el nuevo nodo sea el mas menor
         } else {
-            while(seg != NULL && seg->dato.DNI < nuevoNodo->dato.DNI) {
-                    seg = seg->siguiente;
-                }
-                    seg->siguiente = nuevoNodo;
+            while(seg != NULL && seg->dato.DNI < nuevoNodo->dato.DNI) { // El caso en que haya que meter el nuevo nodo en alguna parte de la mitad o final de la lista
+                seg = seg->siguiente;
             }
+            seg->siguiente = nuevoNodo;
         }
-
     }
 
     return listaDoble;

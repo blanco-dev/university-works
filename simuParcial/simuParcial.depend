@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1698876655 source:c:\users\matias\desktop\universityworks\simuparcial\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
