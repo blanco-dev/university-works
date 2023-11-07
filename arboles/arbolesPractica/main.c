@@ -15,6 +15,7 @@ void postorder(nodoArbol * arbol);
 void preorder(nodoArbol * arbol);
 void inorder(nodoArbol * arbol);
 nodoArbol * insertar(nodoArbol * arbol, int dato);
+nodoArbol * buscar(nodoArbol * arbol, int dato);
 
 int main () {
 
@@ -24,13 +25,16 @@ int main () {
     for (int i=0; i<10; i++) {
         arbol = insertar(arbol, a[i]);
     }
-
+/*
     printf("PREORDER :");
     preorder(arbol);
     printf("\nINORDER :");
     inorder(arbol);
     printf("\nPOSTORDER :");
     postorder(arbol);
+*/
+
+    arbol = buscar(arbol, 22);
 
     return 0;
 }
@@ -94,4 +98,20 @@ nodoArbol * insertar(nodoArbol * arbol, int dato) {
         }
     }
     return arbol;
+}
+
+/// Buscar un dato en un arbol
+
+nodoArbol * buscar(nodoArbol * arbol, int dato) {
+    nodoArbol * rta = NULL; /// Creo una rta, ya que es recursivo, y necesito un retorno en la llamada recursiva
+    if(arbol != NULL) { /// Verifico si el arbol tiene datos
+        if(dato == arbol->dato) {  /// Verifico si el dato coincide con el que quiero
+            rta = arbol;
+            printf("Se encontro");
+        }else if(dato>arbol->dato) /// Sino verifico si el dato es mayor al dato del arbol
+            rta = buscar(arbol->der, dato); /// Si es mayor, me muevo hacia la derecha
+        else
+            rta = buscar(arbol->izq, dato); /// Si llega aca es porque el dato es menor al que esta en el momento en el arbol, entonces, me muevo para la izquierda
+    }
+    return rta;
 }
