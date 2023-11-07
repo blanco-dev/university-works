@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1699360424 source:c:\users\elcha\onedrive\escritorio\trabajosfacultad\university-works\arboles\arbolespractica\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
